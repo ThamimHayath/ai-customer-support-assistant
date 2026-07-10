@@ -1,6 +1,6 @@
 # NexaSupport AI — Customer Support Assistant
 
-A production-ready AI-powered customer support chatbot built with the **Claude API (claude-sonnet-4-6)**. Designed for gaming and SaaS companies, it handles multi-category support conversations with real-time AI responses, escalation detection, and a clean responsive UI.
+A production-ready AI-powered customer support chatbot built with the **Groq API**. Designed for gaming and SaaS companies, it handles multi-category support conversations with real-time AI responses, escalation detection, and a clean responsive UI.
 
 > 🔗 **[Live Demo](https://ThamimHayath.github.io/ai-customer-support-assistant)**
 
@@ -15,8 +15,8 @@ A production-ready AI-powered customer support chatbot built with the **Claude A
 ## Features
 
 - **5 support categories** — General, Billing, Technical, Account, and Gaming, each with a dedicated AI persona and system prompt
-- **Live Claude API integration** — real conversational AI responses, not scripted flows
-- **Conversation history** — Claude remembers context within the session for coherent multi-turn dialogue
+- **Live Groq API integration** — real conversational AI responses, not scripted flows
+- **Conversation history** — remembers context within the session for coherent multi-turn dialogue
 - **Smart escalation** — detects when an issue needs a human agent and shows a live handoff banner automatically
 - **Typing indicator** — animated feedback while the AI processes a response
 - **Suggestion chips** — quick-tap prompts for common issues per category
@@ -31,7 +31,7 @@ A production-ready AI-powered customer support chatbot built with the **Claude A
 | Layer | Technology |
 |---|---|
 | Frontend | Vanilla HTML, CSS, JavaScript |
-| AI | [Anthropic Claude API](https://www.anthropic.com) (`claude-sonnet-4-6`) |
+| AI | [Anthropic API](https://www.anthropic.com) (` -sonnet-4-6`) |
 | Icons | [Tabler Icons](https://tabler-icons.io) (webfont) |
 | Hosting | GitHub Pages |
 
@@ -80,7 +80,7 @@ No build step, no `npm install` — it works immediately.
 
 ## How It Works
 
-Each support category injects a tailored system prompt into the Claude API call:
+Each support category injects a tailored system prompt into the API call:
 
 ```javascript
 const systemPrompt = `You are a friendly, professional AI customer support agent for NexaSupport.
@@ -89,7 +89,7 @@ Keep responses concise (2–4 sentences), empathetic, and helpful.
 For unresolvable issues, recommend a human agent.`;
 ```
 
-The full conversation history is sent with every request, giving Claude context for multi-turn support conversations.
+The full conversation history is sent with every request, giving context for multi-turn support conversations.
 
 ---
 
@@ -113,7 +113,7 @@ ai-customer-support-assistant/
 | Categories | Edit the `categories`, `greetings`, and `defaultChips` objects in the `<script>` block |
 | AI persona | Modify the `systemPrompt` string inside `sendMessage()` |
 | Colour scheme | Update CSS variables in `:root` |
-| Model | Change `claude-sonnet-4-6` to any supported model |
+| Model | Change ` -sonnet-4-6` to any supported model |
 
 ---
 
