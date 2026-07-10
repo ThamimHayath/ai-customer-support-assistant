@@ -1,132 +1,64 @@
-# NexaSupport AI — Customer Support Assistant
+# NexaSupport AI — AI Customer Support Assistant
 
-A production-ready AI-powered customer support chatbot built with the **Groq API**. Designed for gaming and SaaS companies, it handles multi-category support conversations with real-time AI responses, escalation detection, and a clean responsive UI.
+A live, AI-powered customer support chat assistant built for gaming and SaaS support workflows — categorized help topics, contextual conversation, and automatic escalation detection, powered by the Groq API running Llama 3.3 70B.
 
-> 🔗 **[Live Demo](https://ThamimHayath.github.io/ai-customer-support-assistant)**
+**Live demo:** https://thamimhayath.github.io/ai-customer-support-assistant
 
----
+![NexaSupport AI screenshot](screenshot.png)
 
-## Preview
+## Why I built this
 
-![NexaSupport AI Screenshot](screenshot.PNG)
-
----
+Six years of resolving 100+ support tickets a day across billing, technical, account, and gameplay categories showed me how much of a first response is pattern-based — the right tone, the right triage question, the right escalation call. NexaSupport AI is a working prototype of that first layer: a categorized AI assistant that greets a customer in the right context, asks the right follow-ups, and flags when a case needs a human agent — the same shape of workflow this role runs at scale, built as a real, running tool instead of a static case study.
 
 ## Features
 
-- **5 support categories** — General, Billing, Technical, Account, and Gaming, each with a dedicated AI persona and system prompt
-- **Live Groq API integration** — real conversational AI responses, not scripted flows
-- **Conversation history** — remembers context within the session for coherent multi-turn dialogue
-- **Smart escalation** — detects when an issue needs a human agent and shows a live handoff banner automatically
-- **Typing indicator** — animated feedback while the AI processes a response
-- **Suggestion chips** — quick-tap prompts for common issues per category
-- **Responsive layout** — collapses gracefully on mobile (sidebar icons only)
-- **Dark mode** — respects `prefers-color-scheme` automatically
-- **Zero dependencies** — single HTML file, no build step, no framework
+- **Five support categories** — General, Billing, Technical, Account, and Gaming — each with its own greeting, suggested quick-replies, and system prompt context
+- **Conversational memory** — the assistant keeps context within a session so follow-up questions make sense
+- **Automatic escalation detection** — when the model's reply signals it can't fully resolve an issue, the UI surfaces a "connecting you to a human agent" banner
+- **Bring-your-own API key** — no backend, no server costs, and no shared key baked into the code; each visitor supplies their own free Groq key, stored only in their browser
+- **Light/dark mode** — follows the visitor's OS preference automatically
 
----
+## Tech stack
 
-## Tech Stack
+- Vanilla HTML, CSS, and JavaScript — no build step, no framework
+- [Groq API](https://console.groq.com/) running Llama 3.3 70B for chat completions
+- Browser `localStorage` for API key persistence (never sent to any server but Groq's)
+- Deployed as a static site via GitHub Pages
 
-| Layer | Technology |
-|---|---|
-| Frontend | Vanilla HTML, CSS, JavaScript |
-| AI | [Anthropic API](https://www.anthropic.com) (` -sonnet-4-6`) |
-| Icons | [Tabler Icons](https://tabler-icons.io) (webfont) |
-| Hosting | GitHub Pages |
+## Getting started
 
----
+1. Clone or download this repo
+2. Open `index.html` in a browser — or visit the [live demo](https://thamimhayath.github.io/ai-customer-support-assistant)
+3. Click **API key** in the header and paste in a free Groq key from [console.groq.com/keys](https://console.groq.com/keys)
+4. Pick a support category and start chatting
 
-## Getting Started
+No installation, dependencies, or backend required — it's a single static HTML file.
 
-### 1. Clone the repo
+## A note on API key security
 
-```bash
-git clone https://github.com/ThamimHayath/ai-customer-support-assistant.git
-cd ai-customer-support-assistant
-```
+Earlier versions of this project had a Groq API key hardcoded directly in the client-side JavaScript. That's a real mistake worth naming, not hiding: any static site's source is fully visible to visitors, and both GitHub's secret scanning and Groq's own monitoring detect exposed keys in public repos and revoke them automatically — which is exactly what kept happening here.
 
-### 2. Add API key
+The fix was to remove any embedded key entirely and switch to a bring-your-own-key model: each visitor enters their own free Groq key, which is stored only in their browser's `localStorage` and sent directly to Groq's API — never through any server or code of mine. It's a small trade-off in demo friction for a project that's actually safe to leave public.
 
-Open `index.html` and replace the placeholder on line ~170:
+The more robust long-term fix — worth calling out for anyone extending this — is routing the API call through a lightweight backend (a Cloudflare Worker or Vercel serverless function) that holds the key server-side, so visitors never need one of their own. That's on the roadmap below.
 
-```javascript
-const API_KEY = 'YOUR_ANTHROPIC_API_KEY';
-```
-
-Get a key at [console.anthropic.com](https://console.anthropic.com).
-
-> ⚠️ **Security note:** Embedding an API key directly in the frontend is fine for demos and portfolios. For a production deployment, route API calls through a backend proxy (Node.js, Python, etc.) so the key is never exposed to the browser.
-
-### 3. Open locally
-
-```bash
-open index.html
-# or just double-click the file
-```
-
-No build step, no `npm install` — it works immediately.
-
----
-
-## Deploy to GitHub Pages
-
-1. Push the repo to GitHub
-2. Go to **Settings → Pages**
-3. Set source to **Deploy from a branch → main → / (root)**
-4. Live URL will be: `https://ThamimHayath.github.io/ai-customer-support-assistant`
-
----
-
-## How It Works
-
-Each support category injects a tailored system prompt into the API call:
-
-```javascript
-const systemPrompt = `You are a friendly, professional AI customer support agent for NexaSupport.
-You are currently handling ${currentCategory} support queries.
-Keep responses concise (2–4 sentences), empathetic, and helpful.
-For unresolvable issues, recommend a human agent.`;
-```
-
-The full conversation history is sent with every request, giving context for multi-turn support conversations.
-
----
-
-## Project Structure
+## Project structure
 
 ```
 ai-customer-support-assistant/
-├── index.html       # Entire app — HTML, CSS, and JS in one file
-├── README.md        # This file
-└── screenshot.png   # Demo screenshot 
-
+├── index.html      # entire app — markup, styles, and logic
+├── screenshot.png  # demo screenshot (add your own)
+└── README.md
 ```
 
----
+## Roadmap / possible next steps
 
-## Customisation
+- [ ] Serverless proxy (Cloudflare Worker / Vercel function) to remove the bring-your-own-key requirement
+- [ ] Persist conversation history across page reloads
+- [ ] Sentiment-based escalation scoring instead of keyword matching
+- [ ] Exportable transcript for handoff to a human agent
 
-| What | Where |
-|---|---|
-| Brand name | Search `NexaSupport` in `index.html` and replace |
-| Categories | Edit the `categories`, `greetings`, and `defaultChips` objects in the `<script>` block |
-| AI persona | Modify the `systemPrompt` string inside `sendMessage()` |
-| Colour scheme | Update CSS variables in `:root` |
-| Model | Change ` -sonnet-4-6` to any supported model |
+## Author
 
----
-
-## About the Author
-
-Built by **Thamim M** — Senior Consultant in Gaming & SaaS technical support with 6+ years of ITES experience.
-
-- 🌐 [thamim.online](https://thamim.online)
-- 💼 [linkedin.com/in/thamim-m-mtech](https://linkedin.com/in/thamim-m-mtech)
-- 🐙 [github.com/ThamimHayath](https://github.com/ThamimHayath)
-
----
-
-## License
-
-MIT — free to use, modify, and deploy.
+**Thamim M** — Senior Technical Support & Customer Success
+[Portfolio](https://thamim.online) · [LinkedIn](https://www.linkedin.com/in/thamim-m-mtech/) · [GitHub](https://github.com/thamimhayath)
